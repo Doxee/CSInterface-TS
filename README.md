@@ -9,8 +9,8 @@ Related pages, and additional resource where you can find more information about
 [![Adobe Creative Cloud](https://github.com/BrightShadow/CSInterface-TS/blob/master/docs/adobe-cc-logo.png)](http://www.adobe.com/creativecloud.html)
 [![CEP Team](https://github.com/BrightShadow/CSInterface-TS/blob/master/docs/CEP-logo.png)](https://github.com/Adobe-CEP)
 
-The implementation has 1:1 functionality as [`CSInterface.js`](https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_7.x/CSInterface.js)
-which can be found [`here`](https://github.com/Adobe-CEP/CEP-Resources/tree/master/CEP_7.x).
+The implementation has 1:1 functionality as [`CSInterface.js`](https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_9.x/CSInterface.js)
+which can be found [`here`](https://github.com/Adobe-CEP/CEP-Resources/tree/master/CEP_9.x).
 
 The implementation is fully documented - the documentation is based on original Adobe documentation from .js file.
 
@@ -47,20 +47,20 @@ npm install csinterface-ts --save
         "bundles": [
             {
                 "name": "app-bundle.js",
-                
+
                 ....
             },
             {
               "name": "vendor-bundle.js",
-              
+
               ....
-              
+
               "dependencies": [
-                  
+
                   ....
-                  
+
                   "csinterface-ts",  // <-- add it here
-                  
+
                   ....
               ]
           }

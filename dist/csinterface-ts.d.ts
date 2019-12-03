@@ -1,13 +1,13 @@
 /**
- * @class CSInterface
- * This is the entry point to the CEP extensibility infrastructure.
- * Instantiate this object and use it to:
- * <ul>
- * <li>Access information about the host application in which an extension is running</li>
- * <li>Launch an extension</li>
- * <li>Register interest in event notifications, and dispatch events</li>
- * </ul>
+ *  Typescript implementation of CSInterface - v9.0.0
  *
+ *  Custom CSInterface.js implementation in Typescript.
+ *  The implementation covers version 9.x from original repository, with all functionalities.
+ *  All documentation comments were also based on original.
+ *
+ *
+ *  For more information about Creative Cloud extensions development
+ *  please refer to original Github page: https://github.com/Adobe-CEP/CEP-Resources
  */
 export declare class CSInterface {
     /**
@@ -209,7 +209,7 @@ export declare class CSInterface {
      * @param handler   The function to be called when scale factor is changed.
      *
      */
-    setScaleFactorChangedHandler(handler: any): void;
+    setScaleFactorChangedHandler(handler: () => void): void;
     /**
      * Retrieves current API version.
      *
@@ -410,7 +410,7 @@ export declare class CSInterface {
      *
      * @param callback the callback function
      */
-    registerInvalidCertificateCallback(callback: any): any;
+    registerInvalidCertificateCallback(callback: () => void): any;
     /**
      * Register an interest in some key events to prevent them from being sent to the host application.
      *
@@ -630,7 +630,7 @@ export declare class UIColor {
      * The color type, 1 for "rgb" and 2 for "gradient".
      * The supplied color object must correspond to this type.
      */
-    type: number;
+    type?: number;
     /**
      * The anti-alias level constant.
      */
@@ -638,7 +638,7 @@ export declare class UIColor {
     /**
      * A \c #RGBColor or \c #GradientColor object containing specific color information.
      */
-    color: RGBColor | GradientColor;
+    color?: RGBColor | GradientColor;
 }
 /**
  * @class AppSkinInfo

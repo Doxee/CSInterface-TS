@@ -1,15 +1,15 @@
 /**
- *  Typescript implementation of CSInterface - v7.0.0
+ *  Typescript implementation of CSInterface - v9.0.0
  *
  *  Custom CSInterface.js implementation in Typescript.
- *  The implementation covers version 7.x from original repository, with all functionalities.
+ *  The implementation covers version 9.x from original repository, with all functionalities.
  *  All documentation comments were also based on original.
  *
  *
  *  For more information about Creative Cloud extensions development
  *  please refer to original Github page: https://github.com/Adobe-CEP/CEP-Resources
  */
- 
+
  declare var cep: any;
  declare var ret: any;
 
@@ -24,6 +24,11 @@
  * </ul>
  *
  */
+
+function patchHostEnvironmentRGBColors(environment) {
+  return environment.replace(/(\d+),(\d+)/g, (match, g1, g2) => Math.round(parseFloat(g1+"."+g2)));
+}
+
 export class CSInterface {
     /**
      * User can add this event listener to handle native application theme color changes.
@@ -44,7 +49,7 @@ export class CSInterface {
     public readonly THEME_COLOR_CHANGED_EVENT: string = "com.adobe.csxs.events.ThemeColorChanged";
 
     /** The host environment data object. */
-    public hostEnvironment: any = JSON.parse((<any>window).__adobe_cep__.getHostEnvironment());
+    public hostEnvironment: any = (<any>window).__adobe_cep__.getHostEnvironment() ? JSON.parse(patchHostEnvironmentRGBColors((<any>window).__adobe_cep__.getHostEnvironment())) : null;
 
     /** Retrieves information about the host environment in which the
      *  extension is currently running.
@@ -52,7 +57,7 @@ export class CSInterface {
      *   @return A \c #HostEnvironment object.
      */
     getHostEnvironment(): any {
-        this.hostEnvironment = JSON.parse((<any>window).__adobe_cep__.getHostEnvironment());
+        this.hostEnvironment = JSON.parse(patchHostEnvironmentRGBColors((<any>window).__adobe_cep__.getHostEnvironment()));
         return this.hostEnvironment;
     };
 
@@ -816,7 +821,7 @@ export class RGBColor {
      *      The default, 255.0, means that the color is fully opaque.
      */
     constructor(public red: number, public green: number, public blue: number, public alpha: number) {
-		
+
     }
 }
 

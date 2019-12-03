@@ -1,15 +1,16 @@
+"use strict";
 /**
- *  Typescript implementation of CSInterface - v7.0.0
+ *  Typescript implementation of CSInterface - v9.0.0
  *
  *  Custom CSInterface.js implementation in Typescript.
- *  The implementation covers version 7.x from original repository, with all functionalities.
+ *  The implementation covers version 9.x from original repository, with all functionalities.
  *  All documentation comments were also based on original.
  *
  *
  *  For more information about Creative Cloud extensions development
  *  please refer to original Github page: https://github.com/Adobe-CEP/CEP-Resources
  */
-"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @class CSInterface
  * This is the entry point to the CEP extensibility infrastructure.
@@ -21,7 +22,10 @@
  * </ul>
  *
  */
-var CSInterface = (function () {
+function patchHostEnvironmentRGBColors(environment) {
+    return environment.replace(/(\d+),(\d+)/g, function (match, g1, g2) { return Math.round(parseFloat(g1 + "." + g2)); });
+}
+var CSInterface = /** @class */ (function () {
     function CSInterface() {
         /**
          * User can add this event listener to handle native application theme color changes.
@@ -41,7 +45,7 @@ var CSInterface = (function () {
          */
         this.THEME_COLOR_CHANGED_EVENT = "com.adobe.csxs.events.ThemeColorChanged";
         /** The host environment data object. */
-        this.hostEnvironment = JSON.parse(window.__adobe_cep__.getHostEnvironment());
+        this.hostEnvironment = window.__adobe_cep__.getHostEnvironment() ? JSON.parse(patchHostEnvironmentRGBColors(window.__adobe_cep__.getHostEnvironment())) : null;
     }
     /** Retrieves information about the host environment in which the
      *  extension is currently running.
@@ -49,7 +53,7 @@ var CSInterface = (function () {
      *   @return A \c #HostEnvironment object.
      */
     CSInterface.prototype.getHostEnvironment = function () {
-        this.hostEnvironment = JSON.parse(window.__adobe_cep__.getHostEnvironment());
+        this.hostEnvironment = JSON.parse(patchHostEnvironmentRGBColors(window.__adobe_cep__.getHostEnvironment()));
         return this.hostEnvironment;
     };
     ;
@@ -693,7 +697,7 @@ exports.CSInterface = CSInterface;
  *
  * @return CSEvent object
  */
-var CSEvent = (function () {
+var CSEvent = /** @class */ (function () {
     /**
      * Initializes new instance of CSEvent object.
      * You can use it to dispatch a standard CEP event.
@@ -721,39 +725,39 @@ exports.CSEvent = CSEvent;
  * Stores operating-system-specific location constants for use in the
  * \c #CSInterface.getSystemPath() method.
  */
-var SystemPath = (function () {
+var SystemPath = /** @class */ (function () {
     function SystemPath() {
     }
+    /** The path to user data.  */
+    SystemPath.USER_DATA = "userData";
+    /** The path to common files for Adobe applications.  */
+    SystemPath.COMMON_FILES = "commonFiles";
+    /** The path to the user's default document folder.  */
+    SystemPath.MY_DOCUMENTS = "myDocuments";
+    /** @deprecated. Use \c #SystemPath.Extension.  */
+    SystemPath.APPLICATION = "application";
+    /** The path to current extension.  */
+    SystemPath.EXTENSION = "extension";
+    /** The path to hosting application's executable.  */
+    SystemPath.HOST_APPLICATION = "hostApplication";
     return SystemPath;
 }());
-/** The path to user data.  */
-SystemPath.USER_DATA = "userData";
-/** The path to common files for Adobe applications.  */
-SystemPath.COMMON_FILES = "commonFiles";
-/** The path to the user's default document folder.  */
-SystemPath.MY_DOCUMENTS = "myDocuments";
-/** @deprecated. Use \c #SystemPath.Extension.  */
-SystemPath.APPLICATION = "application";
-/** The path to current extension.  */
-SystemPath.EXTENSION = "extension";
-/** The path to hosting application's executable.  */
-SystemPath.HOST_APPLICATION = "hostApplication";
 exports.SystemPath = SystemPath;
 /**
  * @class ColorType
  * Stores color-type constants.
  */
-var ColorType = (function () {
+var ColorType = /** @class */ (function () {
     function ColorType() {
     }
+    /** RGB color type. */
+    ColorType.RGB = "rgb";
+    /** Gradient color type. */
+    ColorType.GRADIENT = "gradient";
+    /** Null color type. */
+    ColorType.NONE = "none";
     return ColorType;
 }());
-/** RGB color type. */
-ColorType.RGB = "rgb";
-/** Gradient color type. */
-ColorType.GRADIENT = "gradient";
-/** Null color type. */
-ColorType.NONE = "none";
 exports.ColorType = ColorType;
 /**
  * @class RGBColor
@@ -762,7 +766,7 @@ exports.ColorType = ColorType;
  * converted to numbers within this range.
  *
  */
-var RGBColor = (function () {
+var RGBColor = /** @class */ (function () {
     /**
      * Stores an RGB color with red, green, blue, and alpha values.
      * All values are in the range [0.0 to 255.0]. Invalid numeric values are
@@ -790,7 +794,7 @@ exports.RGBColor = RGBColor;
  * or the x component is 0 and the y component is positive or negative for
  * an up or down direction.
  */
-var Direction = (function () {
+var Direction = /** @class */ (function () {
     /**
      * A point value  in which the y component is 0 and the x component
      * is positive or negative for a right or left direction,
@@ -811,7 +815,7 @@ exports.Direction = Direction;
  * @class GradientStop
  * Stores gradient stop information.
  */
-var GradientStop = (function () {
+var GradientStop = /** @class */ (function () {
     /**
      * Stores gradient stop information.
      *
@@ -829,7 +833,7 @@ exports.GradientStop = GradientStop;
  * @class GradientColor
  * Stores gradient color information.
  */
-var GradientColor = (function () {
+var GradientColor = /** @class */ (function () {
     /**
      * Initializes new \c #GradientColor instance.
      *
@@ -853,7 +857,7 @@ exports.GradientColor = GradientColor;
  * Stores color information, including the type, anti-alias level, and specific color
  * values in a color object of an appropriate type.
  */
-var UIColor = (function () {
+var UIColor = /** @class */ (function () {
     /**
      * Stores color information, including the type, anti-alias level, and specific color
      * values in a color object of an appropriate type.
@@ -875,7 +879,7 @@ exports.UIColor = UIColor;
  * @class AppSkinInfo
  * Stores window-skin properties, such as color and font. All color parameter values are \c #UIColor objects except that systemHighlightColor is \c #RGBColor object.
  */
-var AppSkinInfo = (function () {
+var AppSkinInfo = /** @class */ (function () {
     /**
      * Stores window-skin properties, such as color and font. All color parameter values are \c #UIColor objects except that systemHighlightColor is \c #RGBColor object.
      *
@@ -903,7 +907,7 @@ exports.AppSkinInfo = AppSkinInfo;
  * @class HostEnvironment
  * Stores information about the environment in which the extension is loaded.
  */
-var HostEnvironment = (function () {
+var HostEnvironment = /** @class */ (function () {
     /**
      * Stores information about the environment in which the extension is loaded.
      *
@@ -931,7 +935,7 @@ exports.HostEnvironment = HostEnvironment;
  * @class HostCapabilities
  * Stores information about the host capabilities.
  */
-var HostCapabilities = (function () {
+var HostCapabilities = /** @class */ (function () {
     /**
      * Stores information about the host capabilities.
      *
@@ -957,7 +961,7 @@ exports.HostCapabilities = HostCapabilities;
  *
  * Since 4.2.0
  */
-var ApiVersion = (function () {
+var ApiVersion = /** @class */ (function () {
     /**
      * Stores current api version.
      *
@@ -981,7 +985,7 @@ exports.ApiVersion = ApiVersion;
  *
  * Since 5.2.0
  */
-var MenuItemStatus = (function () {
+var MenuItemStatus = /** @class */ (function () {
     /**
      * Stores flyout menu item status
      *
@@ -1005,7 +1009,7 @@ exports.MenuItemStatus = MenuItemStatus;
  *
  * Since 5.2.0
  */
-var ContextMenuItemStatus = (function () {
+var ContextMenuItemStatus = /** @class */ (function () {
     /**
      * Stores the status of the context menu item.
      *
